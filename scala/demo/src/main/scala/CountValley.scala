@@ -38,9 +38,16 @@ object CountValley {
     def countingValleys(n: Int, s: String): Int = {
       val s1 = s.map(_ match { case 'D' => -1 case _ => 1})
         .scan(0) { (r,x) => r+x }.tail
-      if (s1.length > 0)
+      val v1 = {if (s1.length > 0) 
         s1.zip(s1.tail).filter(x => x._1 == -1 && x._2 == 0).length
-      else 0
+        else 0}
+
+      val v2 = {if (s1.length > 0)
+        s1.sliding(2).filter(x => x.head == -1 && x.takeRight(1).head == 0).length 
+        else 0}
+
+      println(s1.sliding(2))
+      if (v1 == v2) v1 else throw new Exception(s"Version 1 ($v1) and 2 ($v2) mismatch")
     }
 
     def main(args: Array[String]) {
